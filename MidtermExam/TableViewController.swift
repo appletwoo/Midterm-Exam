@@ -9,7 +9,9 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-
+    var nameArray = ["我的老爸喵星人","屍速列車"]
+    var dateArray = ["上映日期：2016-09-02","上映日期：2016-09-05"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,23 +31,34 @@ class TableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return nameArray.count
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("filmTableViewCell", forIndexPath: indexPath) as! filmTableViewCell
+        cell.dateLabel.text = dateArray[indexPath.row]
+        cell.filmImage.image = UIImage(named: nameArray[indexPath.row])
+        cell.filmName.text = nameArray[indexPath.row]
 
-        // Configure the cell...
+     
 
         return cell
     }
-    */
+     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        performSegueWithIdentifier("film", sender: self)
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let vc = segue.destinationViewController as! MovieSynopsisViewController
+        vc.moviesName  = nameArray[(tableView.indexPathForSelectedRow?.row)!]
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

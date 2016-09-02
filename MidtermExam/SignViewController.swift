@@ -9,9 +9,13 @@
 import UIKit
 
 class SignViewController: UIViewController {
-
+    var nameArray  = [String]()
+    var inputCode: String?
+    @IBOutlet weak var nameTableView: UITableView!
+    @IBOutlet weak var nameTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameTableView.dataSource = self
 
         // Do any additional setup after loading the view.
     }
@@ -21,15 +25,33 @@ class SignViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func confirmButton(sender: AnyObject) {
+        inputCode = nameTextField.text
+        nameTextField.text = ""
+        if nameArray.count >= 3{
+            nameArray.append("只能輸入三位！！")
+            
+        }else {
+        
+        nameArray.append(inputCode!)
+        
+        }
+        self.nameTableView.reloadData()
     }
-    */
 
+
+
+}
+extension SignViewController:UITableViewDataSource{
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return nameArray.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell",forIndexPath: indexPath)
+        print(nameArray)
+        cell.textLabel!.text = nameArray[indexPath.row]
+        return cell
+
+    }
+    
 }
